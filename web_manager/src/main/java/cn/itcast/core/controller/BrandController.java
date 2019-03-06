@@ -25,7 +25,7 @@ public class BrandController {
 
     /**
      * 查询品牌所有数据
-     * @return
+     * @return 品牌集合
      */
     @RequestMapping("/findAll")
     public List<Brand> findAll() {
