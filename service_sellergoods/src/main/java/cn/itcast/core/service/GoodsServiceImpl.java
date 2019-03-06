@@ -83,6 +83,14 @@ public class GoodsServiceImpl implements GoodsService {
 
     }
 
+    /**
+     * 商品分页查询显示
+     *
+     * @param page  当前页码
+     * @param rows  显示数量
+     * @param goods
+     * @return
+     */
     @Override
     public PageResult findPage(Integer page, Integer rows, Goods goods) {
         PageHelper.startPage(page, rows);
@@ -95,7 +103,7 @@ public class GoodsServiceImpl implements GoodsService {
                 criteria.andAuditStatusEqualTo(goods.getAuditStatus());
             }
             if (goods.getGoodsName() != null && !"".equals(goods.getGoodsName())) {
-                criteria.andGoodsNameLike("%"+goods.getGoodsName()+"%");
+                criteria.andGoodsNameLike("%" + goods.getGoodsName() + "%");
             }
             //如果不是管理员用户, 根据用户名查询, 如果是管理员用户查询所有数据
             if (!"admin".equals(goods.getSellerId()) && !"wc".equals(goods.getSellerId())
@@ -103,7 +111,7 @@ public class GoodsServiceImpl implements GoodsService {
                 criteria.andSellerIdEqualTo(goods.getSellerId());
             }
         }
-        Page<Goods> goodsList = (Page<Goods>)goodsDao.selectByExample(query);
+        Page<Goods> goodsList = (Page<Goods>) goodsDao.selectByExample(query);
         return new PageResult(goodsList.getTotal(), goodsList.getResult());
     }
 
@@ -206,8 +214,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 初始化库存对象的属性值
+     *
      * @param goodsEntity 页面传入的商品, 商品详情和库存集合对象
-     * @param item  需要初始化的库存对象
+     * @param item        需要初始化的库存对象
      * @return
      */
     private Item setItemValue(GoodsEntity goodsEntity, Item item) {
@@ -248,6 +257,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /**
      * 添加库存集合对象
+     *
      * @param goodsEntity
      */
     public void insertItemList(GoodsEntity goodsEntity) {

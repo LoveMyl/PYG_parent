@@ -6,8 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserDao {
-    //6666666
-    //7777777
+
     int countByExample(UserQuery example);
 
     int deleteByExample(UserQuery example);
