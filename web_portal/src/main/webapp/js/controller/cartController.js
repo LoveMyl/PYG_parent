@@ -82,9 +82,13 @@ app.controller('cartController',function($scope,cartService){
 				}else{
 					alert(response.message);	//也可以跳转到提示页面				
 				}
-				
-			}				
+			}
 		);		
 	}
+    //跳转到静态页面
+    $scope.openDetailPage = function(){
+        //alert(goodsId);
+        window.open("http://localhost:8083/home-index.html");
+    }
 	
 });
