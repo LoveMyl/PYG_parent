@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface ContentDao {
     int countByExample(ContentQuery example);
-
+//11111111111111
     int deleteByExample(ContentQuery example);
 
     int deleteByPrimaryKey(Long id);

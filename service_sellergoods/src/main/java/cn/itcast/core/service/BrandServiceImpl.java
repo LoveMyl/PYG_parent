@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 @Transactional
 public class BrandServiceImpl implements BrandService {
-
+//qwe
     @Autowired
     private BrandDao brandDao;
 
