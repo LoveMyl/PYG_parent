@@ -86,5 +86,11 @@ app.controller('cartController',function($scope,cartService){
 			}				
 		);		
 	}
+
+    //跳转到静态页面
+    $scope.openDetailPage = function(){
+        //alert(goodsId);
+        window.open("http://localhost:8083/home-index.html");
+    }
 	
 });

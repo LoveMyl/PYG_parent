@@ -14,14 +14,15 @@
     <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
 	<script type="text/javascript" src="js/base.js"></script>
 	<script type="text/javascript" src="js/service/loginService.js"></script>
+	<script type="text/javascript" src="js/service/orderService.js"></script>
 	<script type="text/javascript" src="js/controller/indexController.js"></script>
-    
+
 </head>
 
-<body  ng-app="pinyougou" ng-controller="indexController" ng-init="showName()">
+<body  ng-app="pinyougou" ng-controller="indexController" ng-init="showName();findOrderList()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
-<div id="nav-bottom">
+<div id="nav-bottom" >
 	<!--顶部-->
 	<div class="nav-top">
 		<div class="top">
@@ -32,7 +33,7 @@
 						<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
 					</ul>
 					<ul class="fr">
-						<li class="f-item">我的订单</li>
+						<li class="f-item"><a href="#" ng-click="openDetailPage()">我的订单</a></li>
 						<li class="f-item space"></li>
 						<li class="f-item"><a href="home.html" target="_blank">我的品优购</a></li>
 						<li class="f-item space"></li>
@@ -192,6 +193,14 @@ $(function(){
                 <!--右侧主内容-->
                 <div class="yui3-u-5-6 order-pay">
                     <div class="body">
+						<div class="choose-order">
+							<div class="sui-pagination pagination-large top-pages">
+								<ul>
+									<li class="prev disabled"><a href="#">上一页</a></li>
+									<li class="next"><a href="#">下一页</a></li>
+								</ul>
+							</div>
+						</div>
                         <div class="table-title">
                             <table class="sui-table  order-table">
                                 <tr>
@@ -207,25 +216,21 @@ $(function(){
                                 </tr>
                             </table>
                         </div>
+
                         <div class="order-detail">
-                            <div class="orders">
-                                <div class="choose-order">
-                                    <div class="sui-pagination pagination-large top-pages">
-                                        <ul>
-                                            <li class="prev disabled"><a href="#">上一页</a></li>
-
-                                            <li class="next"><a href="#">下一页</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
+                            <div class="orders" ng-repeat="order in orderList">
 								<!--order1-->
+                                <!-- 遍历 orderList -->
                                 <div class="choose-title">
                                     <label data-toggle="checkbox" class="checkbox-pretty ">
-                                           <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
+                                        <input type="checkbox" checked="checked">
+                                        <span>
+                                            {{order.createTime}} &nbsp;&nbsp; 订单编号：{{order.orderId}}  店铺: <a>{{order.sellerId}}</a>
+                                        </span>
                                      </label>
 									  <a class="sui-btn btn-info share-btn">分享</a>
                                 </div>
+
                                 <table class="sui-table table-bordered order-datatable">
                                     <tbody>
                                         <tr>
@@ -237,24 +242,24 @@ $(function(){
                                             </td>
                                             <td width="5%" class="center">
                                                 <ul class="unstyled">
-                                                    <li class="o-price">¥599.00</li>
-                                                    <li>¥299.00</li>
+                                                    <!--<li class="o-price">¥599.00</li>-->
+                                                    <li>¥{{order.payment}}</li>
                                                 </ul>
                                             </td>
-                                            <td width="5%" class="center">1</td>
+                                            <td width="5%" class="center">100</td>
                                             <td width="8%" class="center">
                                                
                                             </td>
                                             <td width="10%" class="center" >
                                                 <ul class="unstyled">
-                                                    <li>¥299.00</li>
-                                                    <li>（含运费：￥0.00）</li>
+                                                    <li>¥{{order.payment}}</li>
+                                                    <li>（含运费：￥{{order.postFee}}）</li>
                                                 </ul>
                                             </td>
                                             <td width="10%" class="center">
                                                 <ul class="unstyled">
-                                                    <li>等待卖家付款</li>
-                                                    <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
+                                                    <li>{{order.status}}</li>
+                                                    <li><a href="home-orderDetail.html" class="btn">订单详情 </a></li>
                                                 </ul>
                                             </td>
                                             <td width="10%" class="center">
@@ -269,7 +274,9 @@ $(function(){
 
                                     </tbody>
                                 </table>
-                                <!--order2-->
+
+
+                                <!--&lt;!&ndash;order2&ndash;&gt;
                                 <div class="choose-title">
                                     <label data-toggle="checkbox" class="checkbox-pretty ">
                                            <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
@@ -344,7 +351,7 @@ $(function(){
                                     </tbody>
                                 </table>
 
-                                <!--order3-->
+                                &lt;!&ndash;order3&ndash;&gt;
                                 <div class="choose-title">
                                     <label data-toggle="checkbox" class="checkbox-pretty ">
                                            <input type="checkbox" checked="checked"><span>2017-02-11 11:59　订单编号：7867473872181848  店铺：哇哈哈 <a>和我联系</a></span>
@@ -394,7 +401,7 @@ $(function(){
 
 
                                     </tbody>
-                                </table>
+                                </table>-->
 
 
 

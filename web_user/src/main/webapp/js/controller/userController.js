@@ -9,7 +9,7 @@ app.controller('userController' ,function($scope,$controller   ,userService){
 			alert("两次输入密码不一致，请重新输入");
 			$scope.entity.password="";
 			$scope.password="";
-			return ;			
+			return ;
 		}
 		//新增
 		userService.add($scope.entity,$scope.smscode).success(
