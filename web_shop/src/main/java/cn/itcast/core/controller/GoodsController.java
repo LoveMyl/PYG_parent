@@ -51,6 +51,7 @@ public class GoodsController {
 
     @RequestMapping("/findOne")
     public GoodsEntity findOne(Long id) {
+
         return goodsService.findOne(id);
     }
 

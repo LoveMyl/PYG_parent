@@ -10,9 +10,17 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+
+
+
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"> </script>
+	<script type="text/javascript" src="js/base.js"> </script>
+	<script type="text/javascript" src="js/service/cartService.js"> </script>
+	<script type="text/javascript" src="js/controller/cartController.js"> </script>
+
 </head>
 
-<body>
+<body ng-app="pinyougou" ng-controller="cartController" ng-init="findAddressList()">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -145,6 +153,10 @@ $(function(){
 <script type="text/javascript" src="pages/userInfo/distpicker.data.js"></script>
 <script type="text/javascript" src="pages/userInfo/distpicker.js"></script>
 <script type="text/javascript" src="pages/userInfo/main.js"></script>
+	<!--添加城市js-->
+<script type="text/javascript" src="js/plugins/citypicker/distpicker.data.js"></script>
+<script type="text/javascript" src="js/plugins/citypicker/distpicker.js"></script>
+
 </body>
     <!--header-->
     <div id="account">
@@ -196,16 +208,30 @@ $(function(){
                         </div>
                         <div class="address-detail">
                             <table class="sui-table table-bordered">
-                                <thead>
+								<thead>
                                     <tr>
                                         <th>姓名</th>
                                         <th>地址</th>
                                         <th>联系电话</th>
                                         <th>操作</th>
                                     </tr>
+								<tr ng-repeat="address in addressList">
+									<input hidden="hidden" ng-model="id" value="{{address.id}}">
+									<td>{{address.contact}}</td>
+									<td>{{address.address}}</td>
+									<td>{{address.mobile}}</td>
+									<td>{{address.id}}</td>
+									<td>
+										<!-- <li ng-click="sentOutQuery('{{item.detailId}}')" >-->
+										<a href="#" ng-click="update()">编辑</a>
+									<!--	<a href="#" ng-click="dele('address.id')">删除</a>-->
+										默认地址
+									</td>
+								</tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
+
+								<tbody>
+                                    <!--<tr>
                                         <td>刘田田</td>
                                         <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
                                         <td>1774***********4</td>
@@ -214,17 +240,8 @@ $(function(){
                                             <a href="#">删除</a>
                                             默认地址
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>沈沉</td>
-                                        <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                        <td>1774***********4</td>
-                                        <td>
-                                            <a href="#">编辑</a>
-                                            <a href="#">删除</a>
-                                            <a href="#">设为默认</a>
-                                        </td>
-                                    </tr>
+                                    </tr>-->
+
                                     
                                 </tbody>
                             </table>                          
@@ -232,20 +249,21 @@ $(function(){
                         <!--新增地址弹出层-->
                          <div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit" style="width:580px;">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content"  >
                                     <div class="modal-header">
                                         <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×</button>
                                         <h4 id="myModalLabel" class="modal-title">新增地址</h4>
+
                                     </div>
                                     <div class="modal-body">
                                         <form action="" class="sui-form form-horizontal">
                                             <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.contact">
                                             </div>
                                         </div>
-                                        <div class="control-group">
+                                        <!--<div class="control-group">
                                             <label class="control-label">所在地区：</label>
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
@@ -260,29 +278,51 @@ $(function(){
                                                 </div>
                                             </div>
                                             </div>									 
-                                        </div>
+                                        </div>-->
+
+											<div class="control-group">
+												<label for="inputPassword" class="control-label">所在地：</label>
+												<div class="controls">
+													<div data-toggle="distpicker">
+														<div class="form-group area">
+															<select class="form-control" id="province1"></select>
+														</div>
+														<div class="form-group area">
+															<select class="form-control" id="city1"></select>
+														</div>
+														<div class="form-group area">
+															<select class="form-control" id="district1"></select>
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+
+
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-large">
+                                                <input type="text" class="input-large" ng-model="entity.address">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.mobile">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">邮箱：</label>
                                             <div class="controls">
                                                 <input type="text" class="input-medium">
+
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" ng-model="entity.alias">
                                             </div>
                                             <div class="othername">
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
@@ -294,7 +334,7 @@ $(function(){
                                         
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
+                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large" ng-click="add()">确定</button>
                                         <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
                                     </div>
                                 </div>
