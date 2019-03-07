@@ -11,5 +11,11 @@ app.controller("contentController",function($scope,contentService){
 	$scope.search=function(){
 		location.href="http://localhost:8080/search.html#?keywords="+$scope.keywords;
 	}
+
+    //跳转到静态页面
+    $scope.openDetailPage = function(){
+        //alert(goodsId);
+        window.open("http://localhost:8083/home-index.html");
+    }
 	
 });
