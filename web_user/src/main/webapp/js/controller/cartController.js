@@ -9,7 +9,37 @@ app.controller('cartController',function($scope,cartService){
 			}
 		);
 	}
-	
+
+	//添加地址信息
+    $scope.add = function(){
+        cartService.add( $scope.entity).success(
+            function(response){
+                if(response.success){
+                    // 重新查询
+                    // $scope.reloadList();//重新加载
+                    location.href="home-setting-address.html";
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+    }
+
+    //删除用户地址信息
+	$scope.dele = function () {
+		cartService.dele($scope.id).success(
+			function (response) {
+				if (response.success) {
+                    //重新查询
+                    $scope.reloadList();//重新加载
+				}else {
+					alert(response.success)
+				}
+            }
+		);
+	}
+
+
 	//数量加减
 	$scope.addGoodsToCartList=function(itemId,num){
 		cartService.addGoodsToCartList(itemId,num).success(
