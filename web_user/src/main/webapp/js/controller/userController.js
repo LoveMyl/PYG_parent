@@ -32,5 +32,14 @@ app.controller('userController' ,function($scope,$controller   ,userService){
 			}
 		);		
 	}
+
+    //查询实体
+    $scope.findEntity=function(){
+        userService.findEntity().success(
+            function(response){
+                $scope.entity= response;
+            }
+        );
+    }
 	
 });	

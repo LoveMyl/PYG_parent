@@ -82,8 +82,7 @@ app.controller('cartController',function($scope,cartService){
 				}else{
 					alert(response.message);	//也可以跳转到提示页面				
 				}
-				
-			}				
+			}
 		);		
 	}
 
@@ -92,5 +91,5 @@ app.controller('cartController',function($scope,cartService){
         //alert(goodsId);
         window.open("http://localhost:8083/home-index.html");
     }
-	
+
 });
