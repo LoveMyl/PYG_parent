@@ -1,4 +1,5 @@
 //首页控制器
+<<<<<<< Updated upstream
 app.controller('indexController',function($scope,$controller,loginService,orderService){
 
     // AngularJS中的继承:伪继承
@@ -41,4 +42,21 @@ app.controller('indexController',function($scope,$controller,loginService,orderS
         window.open("http://localhost:8080/cart.html");
     }
 
+=======
+app.controller('indexController',function($scope,loginService){
+	$scope.showName=function(){
+        loginService.showName().success(
+            function(response){
+                $scope.loginName=response.loginName;
+            }
+        );
+    }
+    $scope.findAllCollect=function(){
+        loginService.findAllCollect().success(
+            function(response){
+                $scope.items = response;
+            }
+        );
+    }
+>>>>>>> Stashed changes
 });
