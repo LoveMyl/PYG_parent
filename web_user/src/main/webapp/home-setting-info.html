@@ -10,9 +10,16 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+	<!--添加angular -->
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"> </script>
+	<script type="text/javascript" src="js/base.js"> </script>
+	<script type="text/javascript" src="js/service/userService.js"> </script>
+	<script type="text/javascript" src="js/controller/userController.js"> </script>
+
 </head>
 
-<body>
+<body ng-app="pinyougou" ng-controller="userController" ng-init="findEntity()">
+{{user.username}}
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">

@@ -130,6 +130,88 @@ public class Order implements Serializable {
      */
     private String sellerId;
 
+    //---------------------
+    /**
+     * 商品标题
+     */
+    private String title;
+
+    /**
+     * 商品单价
+     */
+    private BigDecimal price;
+
+    /**
+     * 商品购买数量
+     */
+    private Integer num;
+
+    /**
+     * 商品总金额
+     */
+    private BigDecimal totalFee;
+
+    /**
+     * 商品图片地址
+     */
+    private String picPath;
+
+    private String orderIdStr;
+
+    public String getOrderIdStr() {
+        return orderIdStr;
+    }
+
+    public void setOrderIdStr(String orderIdStr) {
+        this.orderIdStr = orderIdStr;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(BigDecimal totalFee) {
+        this.totalFee = totalFee;
+    }
+
+    public String getPicPath() {
+        return picPath;
+    }
+
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    //---------------------------------
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getOrderId() {
