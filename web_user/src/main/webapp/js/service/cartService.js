@@ -5,10 +5,29 @@ app.service('cartService',function($http){
 		return $http.get('cart/findCartList.do');
 	}
 
-	//添加用户地址信息
+    //设置默认地址信息
+	this.updateDefaultStatus = function(id) {
+		alert(id);
+        return $http.post('../address/updateDefaultStatus.do?id='+id)
+    }
+
+
+    //添加用户地址信息
     this.add=function(entity){
         return  $http.post('../address/addUserAddress.do',entity );
     }
+
+
+    //修改用户地址信息
+	this.update=function (entity) {
+		return $http.post('../address/updateAddress.do',entity);
+    }
+
+
+    //查询当前用户地址
+	this.findOne = function(id) {
+		return $http.post('../address/findOne.do?id='+id)
+	}
 
     //删除用户地址
 	this.dele = function (id) {

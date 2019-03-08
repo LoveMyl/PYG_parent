@@ -220,12 +220,11 @@ $(function(){
 									<td>{{address.contact}}</td>
 									<td>{{address.address}}</td>
 									<td>{{address.mobile}}</td>
-									<td>{{address.id}}</td>
 									<td>
-										<!-- <li ng-click="sentOutQuery('{{item.detailId}}')" >-->
-										<a href="#" ng-click="update()">编辑</a>
-									<!--	<a href="#" ng-click="dele('address.id')">删除</a>-->
-										默认地址
+										<!--<a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="sui-btn  btn-info add-new">添加新地址</a>-->
+										<a href="#" data-toggle="modal" data-target=".edit" data-keyboard="false" ng-click="findOne(address.id)" class="sui-btn  btn-info add-new">编辑</a>
+										<a href="#" ng-click="dele(address.id)" class="sui-btn  btn-info add-new">删除</a>
+										<a href="#" ng-click="updateDefaultStatus(address.id)" class="sui-btn  btn-info add-new">默认地址</a>
 									</td>
 								</tr>
                                 </thead>
@@ -334,7 +333,7 @@ $(function(){
                                         
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large" ng-click="add()">确定</button>
+                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large" ng-click="save()">确定</button>
                                         <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
                                     </div>
                                 </div>

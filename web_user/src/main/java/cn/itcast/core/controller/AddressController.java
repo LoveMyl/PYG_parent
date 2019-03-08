@@ -119,7 +119,13 @@ public class AddressController {
 
     }
 
-    public Result updateAddress(Address address) {
+    /**
+     * 修改
+     * @param address
+     * @return
+     */
+    @RequestMapping("/updateAddress")
+    public Result updateAddress(@RequestBody Address address) {
         try {
             addressService.updateAddress(address);
             return new Result(true, "修改成功");
