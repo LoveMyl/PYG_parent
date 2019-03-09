@@ -23,6 +23,33 @@ app.service('cartService',function($http){
 		return $http.post('../address/updateAddress.do',entity);
     }
 
+    /*上传头像功能*/
+    // $scope.entity={goods:{},goodsDesc:{},itemList:[]}
+
+    $scope.uploadFile = function(){
+        // 调用uploadService的方法完成文件的上传
+        uploadService.uploadFile().success(function(response){
+            if(response.success){
+                // 获得url
+                $scope.image_entity.url =  response.message;
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+
+    // 获得了image_entity的实体的数据{"color":"褐色","url":"http://192.168.209.132/group1/M00/00/00/wKjRhFn1bH2AZAatAACXQA462ec665.jpg"}
+    $scope.entity={goods:{},goodsDesc:{itemImages:[],specificationItems:[]}};
+
+    $scope.add_image_entity = function(){
+        $scope.entity.itemImages.push($scope.image_entity);
+    }
+
+    $scope.remove_iamge_entity = function(index){
+        $scope.entity.goodsDesc.itemImages.splice(index,1);
+    }
+
+
 
     //查询当前用户地址
 	this.findOne = function(id) {

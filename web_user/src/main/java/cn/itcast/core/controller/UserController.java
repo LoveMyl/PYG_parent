@@ -68,4 +68,15 @@ public class UserController {
             return new Result(false, "注册失败!");
         }
     }
+
+    /**
+     * 查询用户信息
+     * @return
+     */
+    @RequestMapping("/findEntity")
+    public User findEntity () {
+        //获取当前用户
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        return  userService.findEntity(userName);
+    }
 }

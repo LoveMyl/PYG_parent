@@ -37,7 +37,8 @@ app.controller('userController' ,function($scope,$controller   ,userService){
     $scope.findEntity=function(){
         userService.findEntity().success(
             function(response){
-                $scope.entity= response;
+                $scope.entity= response
+
             }
         );
     }

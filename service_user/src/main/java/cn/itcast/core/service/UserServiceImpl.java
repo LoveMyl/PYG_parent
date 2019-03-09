@@ -18,6 +18,7 @@ import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -92,9 +93,18 @@ public class UserServiceImpl implements UserService {
         userDao.insertSelective(user);
     }
 
-    public static void main(String[] args) {
-        long s = (long)(Math.random() * 1000000);
-        System.out.println("=======" + s);
+    @Override
+    public User findEntity(String userName) {
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+        criteria.andUsernameEqualTo(userName);
+        List<User> userList = userDao.selectByExample(query);
+        for (User user : userList) {
+            return user;
+        }
+        return new User();
     }
+
+
 
 }
