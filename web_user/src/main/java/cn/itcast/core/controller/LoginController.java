@@ -1,22 +1,13 @@
 package cn.itcast.core.controller;
 
-<<<<<<< Updated upstream
-import cn.itcast.core.pojo.entity.Result;
-import cn.itcast.core.pojo.user.User;
 import cn.itcast.core.service.UserService;
-=======
 
-import cn.itcast.core.pojo.item.Item;
-import cn.itcast.core.service.CollectService;
->>>>>>> Stashed changes
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-<<<<<<< Updated upstream
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,23 +39,4 @@ public class LoginController {
         }
         return loginName;
     }
-
-=======
-import java.util.List;
-
-@RestController
-@RequestMapping("/myCollect")
-public class LoginController {
-
-    @Reference
-    private CollectService collectService;
-
-    @RequestMapping("/findAllCollect")
-    public List<Item> findAllCollect() {
-        //获取当前登录用户名
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<Item> collectList = collectService.getCollectListFromRedis(userName);
-        return collectList;
-        }
->>>>>>> Stashed changes
 }
