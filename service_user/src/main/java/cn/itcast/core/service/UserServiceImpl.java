@@ -9,7 +9,6 @@ import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -94,9 +93,18 @@ public class UserServiceImpl implements UserService {
         userDao.insertSelective(user);
     }
 
-    public static void main(String[] args) {
-        long s = (long)(Math.random() * 1000000);
-        System.out.println("=======" + s);
+    @Override
+    public User findEntity(String userName) {
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+        criteria.andUsernameEqualTo(userName);
+        List<User> userList = userDao.selectByExample(query);
+        for (User user : userList) {
+            return user;
+        }
+        return new User();
     }
+
+
 
 }

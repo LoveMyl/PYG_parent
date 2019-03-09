@@ -10,8 +10,46 @@ app.controller('cartController',function($scope,cartService){
 		);
 	}
 
+    //设置默认地址信息
+    $scope.updateDefaultStatus = function(id){
+		//alert(1)
+		cartService.updateDefaultStatus(id).success(
+            function(response){
+                if(response.success){
+                    // 重新查询
+                    // $scope.reloadList();//重新加载
+                    location.href="home-setting-address.html";
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+    }
+
+
+
+	//保存
+    $scope.save=function(){
+        var serviceObject;//服务层对象
+        if($scope.entity.id!=null){//如果有ID
+            serviceObject=cartService.update( $scope.entity ); //修改
+        }else{
+            serviceObject=cartService.add( $scope.entity  );//增加
+        }
+        serviceObject.success(
+            function(response){
+                if(response.success){
+                    //重新查询
+                    location.href="home-setting-address.html";
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+    }
+
 	//添加地址信息
-    $scope.add = function(){
+    $scope.add = function(id){
         cartService.add( $scope.entity).success(
             function(response){
                 if(response.success){
@@ -25,13 +63,41 @@ app.controller('cartController',function($scope,cartService){
         );
     }
 
-    //删除用户地址信息
-	$scope.dele = function () {
-		cartService.dele($scope.id).success(
+
+    //查询实体
+    $scope.findOne=function(id){
+        cartService.findOne(id).success(
+            function(response){
+                $scope.entity= response;
+            }
+        );
+    }
+
+    //修改用户地址信息
+	$scope.update = function(id) {
+		cartService.update(id).success(
 			function (response) {
 				if (response.success) {
-                    //重新查询
-                    $scope.reloadList();//重新加载
+                    alert(response.success);
+                    location.href="home-setting-address.html"; //页面重新刷新
+				}else {
+                    alert(response.success);
+				}
+            }
+		);
+	}
+
+
+
+    //删除用户地址信息
+	$scope.dele = function (id) {
+		//alert(id);
+		cartService.dele(id).success(
+			function (response) {
+               // alert(id);
+				if (response.success) {
+                    //页面重新加载
+                    location.href="home-setting-address.html";
 				}else {
 					alert(response.success)
 				}

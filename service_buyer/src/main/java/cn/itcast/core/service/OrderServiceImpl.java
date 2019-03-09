@@ -6,16 +6,23 @@ import cn.itcast.core.dao.log.PayLogDao;
 import cn.itcast.core.dao.order.OrderDao;
 import cn.itcast.core.dao.order.OrderItemDao;
 import cn.itcast.core.pojo.entity.BuyerCart;
+import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.log.PayLog;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.OrderItemQuery;
+import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import javassist.expr.Cast;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import sun.java2d.pipe.OutlineTextRenderer;
 
+import javax.management.Query;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -152,45 +159,90 @@ public class OrderServiceImpl implements OrderService {
      *
      * @return
      */
-    @Override
-    public List<Order> getOrderList() {
-        List<Order> orderList = orderDao.selectByExample(null);
+    public List<Order> getOrderList(String userName, String status) {
+        //订单状态
+        String orderStatus = "0";
+        OrderQuery orderQuery = new OrderQuery();
+        OrderQuery.Criteria criteria = orderQuery.createCriteria();
+        //查询用户名下的订单
+        if (userName != null) {
+            criteria.andUserIdEqualTo(userName);
+        }
+        //订单状态查询
+        if (status != null && !"".equals(status) && !orderStatus.equals(status)) {
+            criteria.andStatusEqualTo(status);
+        }
+
+        List<Order> orderList = orderDao.selectByExample(orderQuery);
         for (Order order : orderList) {
             //获取邮费
             String postFee = order.getPostFee();
-            //获取订单支付状态
-            String status = order.getStatus();
             //判断邮费
             if (postFee == null) {
                 //邮费为空初始化未0
                 order.setPostFee("0");
             }
-            switch (status) {
-                case "1":
-                    order.setStatus("未付款");
-                    break;
-                case "2":
-                    order.setStatus("已付款");
-                    break;
-                case "3":
-                    order.setStatus("未发货");
-                    break;
-                case "4":
-                    order.setStatus("已发货");
-                    break;
-                case "5":
-                    order.setStatus("交易成功");
-                    break;
-                case "6":
-                    order.setStatus("交易关闭");
-                    break;
-                case "7":
-                    order.setStatus("待评价");
-                    break;
-                default:
-                    order.setStatus("未付款");
-            }
         }
         return orderList;
     }
+
+    /**
+     * 初始化订单(order)中的值
+     *
+     * @param order         订单
+     * @param orderItemList 订单详细
+     * @return
+     */
+    private void setOrder(Order order, List<OrderItem> orderItemList) {
+        if (orderItemList != null) {
+            for (OrderItem orderItem : orderItemList) {
+                String orderIdStr = String.valueOf(order.getOrderId());
+                order.setOrderIdStr(orderIdStr);
+                order.setTitle(orderItem.getTitle());
+                order.setPrice(orderItem.getPrice());
+                order.setNum(orderItem.getNum());
+                order.setTotalFee(orderItem.getTotalFee());
+                order.setPicPath(orderItem.getPicPath());
+                order.setPrice(orderItem.getPrice());
+            }
+        }
+    }
+
+    /**
+     * 分页查询 全部订单数据
+     *
+     * @param page     当前页
+     * @param rows     每页显示个数
+     * @param userName 当前登陆用户名
+     * @return
+     */
+    @Override
+    public PageResult search(Integer page, Integer rows, String userName, String status) {
+        if (page == 0) {
+            page = 1;
+        }
+        if (rows == 0) {
+            rows = 3;
+        }
+        //分页助手
+        PageHelper.startPage(page, rows);
+        //返回分页数据
+        Page<Order> orderList = (Page<Order>) getOrderList(userName, status);
+
+        if (orderList != null) {
+            for (Order order : orderList) {
+                Long orderId = order.getOrderId();
+
+                OrderItemQuery query = new OrderItemQuery();
+                OrderItemQuery.Criteria criteria = query.createCriteria();
+                criteria.andOrderIdEqualTo(orderId);
+                List<OrderItem> orderItemList = orderItemDao.selectByExample(query);
+                //order赋值
+                setOrder(order, orderItemList);
+            }
+        }
+        //分页数据
+        return new PageResult(orderList.getTotal(), orderList.getResult());
+    }
+
 }
