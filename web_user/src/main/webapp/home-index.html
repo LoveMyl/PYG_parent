@@ -25,11 +25,11 @@
 	<script type="text/javascript" src="js/base_pagination.js"></script>
 	<script type="text/javascript" src="js/controller/baseController.js"></script>
 	<script type="text/javascript" src="js/service/loginService.js"></script>
-	<script type="text/javascript" src="js/service/orderService.js"></script>
+	<script type="text/javascript" src="js/service/orderSearchService.js"></script>
 	<script type="text/javascript" src="js/controller/indexController.js"></script>
 </head>
 
-<body  ng-app="pinyougou" ng-controller="indexController" ng-init="showName()">
+<body  ng-app="pinyougou" ng-controller="indexController" ng-init="showName();status='0'">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom" >
@@ -182,7 +182,7 @@ $(function(){
                         <dl>
 							<dt><i>·</i> 订单中心</dt>
 							<dd ><a href="home-index.html"  class="list-active" >我的订单</a></dd>
-							<dd><a href="home-order-pay.html" >待付款</a></dd>
+							<dd><a href="home-order-pay.html">待付款</a></dd>
 							<dd><a href="home-order-send.html"  >待发货</a></dd>
 							<dd><a href="home-order-receive.html" >待收货</a></dd>
 							<dd><a href="home-order-evaluate.html" >待评价</a></dd>
@@ -240,6 +240,7 @@ $(function(){
                                         <input type="checkbox" checked="checked">
                                         <span>
 											{{order.createTime}} &nbsp;&nbsp; 订单编号：{{order.orderIdStr}}  &nbsp;&nbsp;店铺: <a>{{order.sellerId}}</a>
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a>和我联系</a>
                                         </span>
                                      </label>
 									  <a class="sui-btn btn-info share-btn">分享</a>

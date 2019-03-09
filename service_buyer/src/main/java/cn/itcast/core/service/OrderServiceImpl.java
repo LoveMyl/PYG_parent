@@ -159,10 +159,20 @@ public class OrderServiceImpl implements OrderService {
      *
      * @return
      */
-    public List<Order> getOrderList(String userName) {
+    public List<Order> getOrderList(String userName, String status) {
+        //订单状态
+        String orderStatus = "0";
         OrderQuery orderQuery = new OrderQuery();
         OrderQuery.Criteria criteria = orderQuery.createCriteria();
-        criteria.andUserIdEqualTo(userName);
+        //查询用户名下的订单
+        if (userName != null) {
+            criteria.andUserIdEqualTo(userName);
+        }
+        //订单状态查询
+        if (status != null && !"".equals(status) && !orderStatus.equals(status)) {
+            criteria.andStatusEqualTo(status);
+        }
+
         List<Order> orderList = orderDao.selectByExample(orderQuery);
         for (Order order : orderList) {
             //获取邮费
@@ -177,27 +187,49 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 分页查询 订单数据
+     * 初始化订单(order)中的值
      *
-     * @param page 当前页
-     * @param rows 每页显示个数
+     * @param order         订单
+     * @param orderItemList 订单详细
+     * @return
+     */
+    private void setOrder(Order order, List<OrderItem> orderItemList) {
+        if (orderItemList != null) {
+            for (OrderItem orderItem : orderItemList) {
+                String orderIdStr = String.valueOf(order.getOrderId());
+                order.setOrderIdStr(orderIdStr);
+                order.setTitle(orderItem.getTitle());
+                order.setPrice(orderItem.getPrice());
+                order.setNum(orderItem.getNum());
+                order.setTotalFee(orderItem.getTotalFee());
+                order.setPicPath(orderItem.getPicPath());
+                order.setPrice(orderItem.getPrice());
+            }
+        }
+    }
+
+    /**
+     * 分页查询 全部订单数据
+     *
+     * @param page     当前页
+     * @param rows     每页显示个数
      * @param userName 当前登陆用户名
      * @return
      */
     @Override
-    public PageResult search(Integer page, Integer rows,String userName) {
+    public PageResult search(Integer page, Integer rows, String userName, String status) {
         if (page == 0) {
             page = 1;
         }
-        if (rows == 0){
+        if (rows == 0) {
             rows = 3;
         }
         //分页助手
         PageHelper.startPage(page, rows);
         //返回分页数据
-        Page<Order> orderList = (Page<Order>) getOrderList(userName);
+        Page<Order> orderList = (Page<Order>) getOrderList(userName, status);
 
-        if (orderList != null){
+        if (orderList != null) {
             for (Order order : orderList) {
                 Long orderId = order.getOrderId();
 
@@ -213,24 +245,4 @@ public class OrderServiceImpl implements OrderService {
         return new PageResult(orderList.getTotal(), orderList.getResult());
     }
 
-    /**
-     * 初始化订单(order)中的值
-     * @param order 订单
-     * @param orderItemList 订单详细
-     * @return
-     */
-    private void setOrder(Order order,List<OrderItem> orderItemList){
-        if (orderItemList != null){
-            for (OrderItem orderItem : orderItemList) {
-                String orderIdStr = String.valueOf(order.getOrderId());
-                order.setOrderIdStr(orderIdStr);
-                order.setTitle(orderItem.getTitle());
-                order.setPrice(orderItem.getPrice());
-                order.setNum(orderItem.getNum());
-                order.setTotalFee(orderItem.getTotalFee());
-                order.setPicPath(orderItem.getPicPath());
-                order.setPrice(orderItem.getPrice());
-            }
-        }
-    }
 }
