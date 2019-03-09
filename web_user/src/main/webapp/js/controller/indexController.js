@@ -27,8 +27,6 @@ app.controller('indexController',function($scope,$controller,loginService,orderS
         )
     }
 
-    //$scope.status=[];//订单状态查询条件
-
    // 分页查询
     $scope.search = function(page,rows){
         // 向后台发送请求获取数据:

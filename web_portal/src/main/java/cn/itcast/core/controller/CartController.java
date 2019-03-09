@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * 购物车业务
+ * 收藏业务
  */
 @RestController
 @RequestMapping("/cart")
