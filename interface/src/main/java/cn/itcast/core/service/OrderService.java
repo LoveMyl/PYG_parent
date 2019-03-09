@@ -29,7 +29,10 @@ public interface OrderService {
      * @param page 当前页
      * @param rows 每页显示个数
      * @param userName 当前登陆者用户名
+     * @param status 订单状态
      * @return
      */
-    public abstract PageResult search(Integer page, Integer rows,String userName);
+    public abstract PageResult search(Integer page, Integer rows,String userName,String status);
+
+
 }
