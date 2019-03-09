@@ -1,7 +1,7 @@
  //控制层 
 app.controller('seckillController' ,function($scope,$controller,seckillService){
 	
-	$controller('baseController',{$scope:$scope});//继承
+	// $controller('baseController',{$scope:$scope});//继承
 	
     //读取列表数据绑定到表单中  
 	$scope.findAll=function(){
@@ -12,7 +12,7 @@ app.controller('seckillController' ,function($scope,$controller,seckillService){
 		);
 	}    
 	
-	//分页
+	/*//分页
 	$scope.findPage=function(page,rows){			
 		seckillService.findPage(page,rows).success(
 			function(response){
@@ -29,7 +29,7 @@ app.controller('seckillController' ,function($scope,$controller,seckillService){
 				$scope.entity= response;					
 			}
 		);				
-	}
+	}*/
 
     
 });	
