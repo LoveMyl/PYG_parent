@@ -36,4 +36,6 @@ public interface BuyerCartService {
      * @return  合并后的购物车列表
      */
     public List<BuyerCart> mergeCookieCartToRedisCart(List<BuyerCart> cookieCartList, List<BuyerCart> redisCartList);
+
+    public void setRedisCart(String userName);
 }

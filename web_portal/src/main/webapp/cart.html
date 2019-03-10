@@ -17,6 +17,7 @@
 </head>
 
 <body ng-app="pinyougou" ng-controller="cartController" ng-init="findCartList()">
+{{cartList}}
 	<!--head-->
 	<div class="top">
 		<div class="py-container">
@@ -96,7 +97,7 @@
 								</li>
 								<li class="yui3-u-1-8"><span class="sum">{{item.totalFee}}</span></li>
 								<li class="yui3-u-1-8">
-									<a href="#none">删除</a><br />
+									<a href="#" ng-click="deleCartListByItemId(item.itemId)">删除</a><br />
 									<a href="#" ng-click="addItemToCollectList(item.itemId)">收藏</a><br />
 								</li>
 							</ul>

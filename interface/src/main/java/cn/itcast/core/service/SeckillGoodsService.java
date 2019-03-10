@@ -7,4 +7,6 @@ import java.util.List;
 public interface SeckillGoodsService {
 
     List<SeckillGoods> findAll();
+
+    SeckillGoods findOne(Long id);
 }

@@ -8,16 +8,12 @@ app.service('cartService',function($http){
     this.findCollectList=function(){
         return $http.get('collect/findCollectList.do');
     }
+
     //添加收藏列表
 	this.addItemToCollectList=function (itemId) {
 		return $http.get('collect/addItemToCollectList.do?itemId='+itemId);
     }
 
-	//添加商品到购物车
-	this.addGoodsToCartList=function(itemId,num){
-		return $http.get('cart/addGoodsToCartList.do?itemId='+itemId+'&num='+num);
-	}
-	
 	//求合计数
 	this.sum=function(cartList){
 		var totalValue={totalNum:0,totalMoney:0 };
@@ -43,6 +39,11 @@ app.service('cartService',function($http){
 	this.submitOrder=function(order){
 		return $http.post('order/add.do',order);		
 	}
-	
+
+	//删除
+    this.dele = function(itemId){
+    	return $http.get('cart/deleCartListByItemId.do?itemId='+itemId);
+
+	}
 	
 });

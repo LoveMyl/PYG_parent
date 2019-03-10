@@ -23,4 +23,15 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
         List<SeckillGoods> seckillGoods = seckillGoodsDao.selectByExample(null);
         return seckillGoods;
     }
+
+    /**
+     * 查询单个秒杀实体
+     * @param id 编号
+     * @return
+     */
+    @Override
+    public SeckillGoods findOne(Long id) {
+        SeckillGoods seckillGoods = seckillGoodsDao.selectByPrimaryKey(id);
+        return seckillGoods;
+    }
 }

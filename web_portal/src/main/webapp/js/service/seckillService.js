@@ -1,5 +1,5 @@
 //服务层
-app.service('seckillService',function($http){
+app.service('seckillService',function($location,$http){
 	    	
 	//读取列表数据绑定到表单中
 	this.findAll=function(){
@@ -12,7 +12,16 @@ app.service('seckillService',function($http){
 	*/
 	//查询实体
 	this.findOne=function(id){
-		return $http.get('seckill/findOne.do?id='+id);
+
+		return $http.get('seckill/findOne.do?id='+id[1]);
 	}
+
+	this.addToCart = function (itemId) {
+		alert(itemId);
+        return $http.get('cart/addGoodsToCart.do?itemId='
+            +itemId+'&num='+1 );
+
+
+    }
 
 });

@@ -207,4 +207,14 @@ public class BuyerCartServiceImpl implements BuyerCartService {
 
         return redisCartList;
     }
+
+    /**
+     * 设置该用户下的购物车为空
+     *
+     */
+    @Override
+    public void setRedisCart(String userName) {
+        redisTemplate.boundHashOps(Constants.REDIS_CART_LIST).put(userName,"[]");
+
+    }
 }
