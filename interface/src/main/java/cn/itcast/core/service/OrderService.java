@@ -48,4 +48,5 @@ public interface OrderService {
      * @param orderIdStr 订单号
      */
     public abstract void updateOrderStatus(String orderIdStr);
+
 }

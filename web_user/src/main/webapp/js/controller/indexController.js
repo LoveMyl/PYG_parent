@@ -29,6 +29,26 @@ app.controller('indexController', function ($scope, $controller, loginService, o
         )
     }
 
+    //根据订单号取消订单,+取消确认
+    $scope.cancelOrder = function (orderIdStr) {
+        //利用对话框返回的值 （true 或者 false）
+        if (confirm("你确定要取消此订单吗？")) {
+            //alert("点击了确定");
+            orderSearchService.cancelOrder(orderIdStr).success(
+                function (response) {
+                    if (response.message=='1'){
+                        window.location.reload();
+                    } else {
+                        alert(response.message)
+                    }
+                }
+            )
+        }
+        else {
+            //alert("点击了取消");
+        }
+    }
+
     // 分页查询
     $scope.search = function (page, rows) {
         // 向后台发送请求获取数据:
@@ -54,6 +74,7 @@ app.controller('indexController', function ($scope, $controller, loginService, o
                     }
                 } else {
                     alert(response.message);	//也可以跳转到提示页面
+                    window.location.reload();
                 }
             });
     }

@@ -123,9 +123,9 @@ public class OrderServiceImpl implements OrderService {
                 total_money += money;
 
                 //将订单号存入redis
-                redisTemplate.boundHashOps(Constants.ORDER_TIME_OUT).put(orderId, orderId);
+                redisTemplate.boundValueOps(orderId).set(orderId, 30, TimeUnit.MINUTES);
                 //设置key的超时时间
-                redisTemplate.boundHashOps(Constants.ORDER_TIME_OUT).expire(3, TimeUnit.MINUTES);
+                //redisTemplate.boundHashOps(Constants.ORDER_TIME_OUT).expire(30, TimeUnit.MINUTES);
 
                 /*redisTemplate.opsForHash().put(Constants.ORDER_TIME_OUT, orderId, orderId);
                 redisTemplate.expire(orderId, 30, TimeUnit.MINUTES);*/
@@ -175,7 +175,6 @@ public class OrderServiceImpl implements OrderService {
         //2. 根据支付单号查询对应的支付日志对象
         payLog = payLogDao.selectByPrimaryKey(out_trade_no);
 
-
         //3. 获取支付日志对象的订单号属性
         String orderListStr = payLog.getOrderList();
         //4. 根据订单号修改订单表的支付状态为已支付
@@ -191,11 +190,10 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-
         //5. 根据用户名清除redis中未支付的支付日志对象
         redisTemplate.boundHashOps(Constants.REDIS_PAYLOG).delete(payLog.getUserId());
         //删除redis中订单超时的依据订单号
-        redisTemplate.opsForHash().get(Constants.ORDER_TIME_OUT, payLog.getOrderList());
+        redisTemplate.delete(payLog.getOrderList());
     }
 
     /**
@@ -353,4 +351,6 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus("6");
         orderDao.updateByPrimaryKeySelective(order);
     }
+
+
 }

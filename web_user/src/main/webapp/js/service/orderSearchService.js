@@ -14,4 +14,9 @@ app.service('orderSearchService',function($http) {
     this.goToPayPage = function(orderIdStr){
         return $http.get("order/goToPayPage.do?orderIdStr="+orderIdStr);
     }
+
+    //取消订单
+    this.cancelOrder = function(orderIdStr){
+        return $http.get("order/cancelOrder.do?orderIdStr="+orderIdStr);
+    }
 });
