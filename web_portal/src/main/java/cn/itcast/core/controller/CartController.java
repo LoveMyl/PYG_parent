@@ -4,6 +4,7 @@ import cn.itcast.core.common.Constants;
 import cn.itcast.core.common.CookieUtil;
 import cn.itcast.core.pojo.entity.BuyerCart;
 import cn.itcast.core.pojo.entity.Result;
+import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.service.BuyerCartService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
@@ -37,12 +38,13 @@ public class CartController {
 
     /**
      * 添加商品到购物车
-     * @param itemId    库存id
-     * @param num       购买数量
+     *
+     * @param itemId 库存id
+     * @param num    购买数量
      * @return
      */
     @RequestMapping("/addGoodsToCartList")
-    @CrossOrigin(origins="http://localhost:8086",allowCredentials="true")
+    @CrossOrigin(origins = "http://localhost:8086", allowCredentials = "true")
     public Result addGoodsToCartList(Long itemId, Integer num) {
         //1. 获取当前登录用户名称
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -64,7 +66,36 @@ public class CartController {
     }
 
     /**
+     * 添加秒杀商品
+     *
+     * @param itemId 库存编号
+     * @param num    数量
+     * @return
+     */
+    @RequestMapping("/addGoodsToCart")
+    public Result addGoodsToCart(Long itemId, Integer num) {
+        //1. 获取当前登录用户名称
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        //2. 获取购物车列表
+        List<BuyerCart> cartList = findCartList();
+        //3. 将当前商品加入到购物车列表
+        cartList = cartService.addItemToCartList(cartList, itemId, num);
+        //4. 判断当前用户是否登录, 未登录用户名为"anonymousUser"
+        if ("anonymousUser".equals(userName)) {
+            //4.a.如果未登录, 则将购物车列表存入cookie中
+            String buyerCartJsonStr = JSON.toJSONString(cartList);
+            CookieUtil.setCookie(request, response, Constants.COOKIE_CART_LIST, buyerCartJsonStr, 60 * 60 * 24 * 30, "utf-8");
+        } else {
+            //4.b.如果已登录, 则将购物车列表存入redis中
+            cartService.setCartListToRedis(cartList, userName);
+        }
+
+        return new Result(true, "添加购物车成功!");
+    }
+
+    /**
      * 查询当前用户购物车列表数据并返回到购物车列表页面
+     *
      * @return
      */
     @RequestMapping("/findCartList")
@@ -78,7 +109,7 @@ public class CartController {
             cookieCartJsonStr = "[]";
         }
         //4. 将购物车列表json转换为对象
-        List<BuyerCart> cookieCartList= JSON.parseArray(cookieCartJsonStr, BuyerCart.class);
+        List<BuyerCart> cookieCartList = JSON.parseArray(cookieCartJsonStr, BuyerCart.class);
         //5. 判断用户是否登录, 未登录用户为"anonymousUser"
         if ("anonymousUser".equals(userName)) {
             //5.a. 未登录, 返回cookie中的购物车列表对象
@@ -96,7 +127,54 @@ public class CartController {
                 cartService.setCartListToRedis(redisCartList, userName);
             }
             //5.b.3.返回购物车列表对象
-            return  redisCartList;
+            return redisCartList;
         }
     }
+
+    /**
+     * 根据编号删除商品
+     * @param itemId 编号
+     * @return
+     */
+    @RequestMapping("/deleCartListByItemId")
+    public Result deleCartListByItemId(Long itemId) {
+        try {
+            //1. 获取当前登录用户名称
+            String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+
+
+            //4. 将购物车列表json转换为对象
+            List<BuyerCart> CartList = cartService.getCartListFromRedis(userName);
+            List<OrderItem> orderItemList = null;
+            OrderItem orderItemEntity = new OrderItem();
+            if (CartList != null) {
+                for (BuyerCart buyerCart : CartList) {
+                    orderItemList = buyerCart.getOrderItemList();
+                    for (OrderItem orderItem : orderItemList) {
+                        if (orderItem.getItemId().equals(itemId)) {
+
+                            orderItemEntity = orderItem;
+
+                        }
+
+                    }
+                }
+            }
+
+            boolean remove = orderItemList.remove(orderItemEntity);
+            if (orderItemList==null||  orderItemList.size()==0 ){
+                CartList = null;
+            }
+            cartService.setCartListToRedis(CartList,userName);
+
+            return new Result(true,"删除成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"删除失败!");
+        }
+
+
+    }
+
+
 }

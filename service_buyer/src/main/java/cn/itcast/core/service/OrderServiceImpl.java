@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -113,13 +114,21 @@ public class OrderServiceImpl implements OrderService {
                     }
                 }
 
-                //保存订单独享
+                //保存订单对象
                 tborder.setPayment(new BigDecimal(money));
                 orderDao.insertSelective(tborder);
                 //添加到订单列表
                 orderIdList.add(orderId + "");
                 //累加到总金额
                 total_money += money;
+
+                //将订单号存入redis
+                redisTemplate.boundValueOps(orderId).set(orderId, 30, TimeUnit.MINUTES);
+                //设置key的超时时间
+                //redisTemplate.boundHashOps(Constants.ORDER_TIME_OUT).expire(30, TimeUnit.MINUTES);
+
+                /*redisTemplate.opsForHash().put(Constants.ORDER_TIME_OUT, orderId, orderId);
+                redisTemplate.expire(orderId, 30, TimeUnit.MINUTES);*/
 
             }
         }
@@ -166,7 +175,6 @@ public class OrderServiceImpl implements OrderService {
         //2. 根据支付单号查询对应的支付日志对象
         payLog = payLogDao.selectByPrimaryKey(out_trade_no);
 
-
         //3. 获取支付日志对象的订单号属性
         String orderListStr = payLog.getOrderList();
         //4. 根据订单号修改订单表的支付状态为已支付
@@ -182,9 +190,10 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-
         //5. 根据用户名清除redis中未支付的支付日志对象
         redisTemplate.boundHashOps(Constants.REDIS_PAYLOG).delete(payLog.getUserId());
+        //删除redis中订单超时的依据订单号
+        redisTemplate.delete(payLog.getOrderList());
     }
 
     /**
@@ -308,21 +317,40 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public PayLog findPayLog(String orderIdStr) {
-        //支付日志查询条件
-        PayLogQuery payQuery = new PayLogQuery();
-        PayLogQuery.Criteria criteria = payQuery.createCriteria();
-        if (orderIdStr != null) {
-            criteria.andOrderListEqualTo(orderIdStr);
-        }
-        //根据订单id查询支付日志,返回结果
-        List<PayLog> payLogList = payLogDao.selectByExample(payQuery);
-
-        if (payLogList != null) {
-            for (PayLog payLog : payLogList) {
-                return payLog;
+        //redis中获取订单号
+        String orderId = (String) redisTemplate.opsForHash().get(Constants.ORDER_TIME_OUT, orderIdStr);
+        //获取不到订单超时
+        if (orderId != null) {
+            //支付日志查询条件
+            PayLogQuery payQuery = new PayLogQuery();
+            PayLogQuery.Criteria criteria = payQuery.createCriteria();
+            if (orderIdStr != null) {
+                criteria.andOrderListEqualTo(orderIdStr);
+            }
+            //根据订单id查询支付日志,返回结果
+            List<PayLog> payLogList = payLogDao.selectByExample(payQuery);
+            //遍历返回 支付日志
+            if (payLogList != null) {
+                for (PayLog payLog : payLogList) {
+                    return payLog;
+                }
             }
         }
         return null;
     }
+
+    /**
+     * 订单超时,修改订单状态
+     *
+     * @param orderIdStr 订单号
+     */
+    @Override
+    public void updateOrderStatus(String orderIdStr) {
+        Order order = new Order();
+        order.setOrderId(Long.parseLong(orderIdStr));
+        order.setStatus("6");
+        orderDao.updateByPrimaryKeySelective(order);
+    }
+
 
 }

@@ -21,7 +21,6 @@
 </head>
 
 <body ng-app="pinyougou" ng-controller="seckillController" ng-init="findAll()">
-{{list}}
 	<!-- 头部栏位 -->
 	<!--页面顶部-->
 <div id="nav-bottom">
@@ -202,7 +201,7 @@ $(function(){
 						<br>
 						<div>剩余<b class='owned'>{{seckill.stockCount}}</b>件</div>
 					</div>
-					<a class='sui-btn btn-block btn-buy' href='seckill-item.html?id={{seckill.id}}' target='_blank'>立即抢购</a>
+					<a class='sui-btn btn-block btn-buy' href='#' ng-click="openDetailPage(seckill.id)">立即抢购</a>
 				</li>
 
 

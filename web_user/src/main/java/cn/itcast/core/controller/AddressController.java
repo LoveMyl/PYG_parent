@@ -1,6 +1,9 @@
 package cn.itcast.core.controller;
 
 import cn.itcast.core.pojo.address.Address;
+import cn.itcast.core.pojo.address.Areas;
+import cn.itcast.core.pojo.address.Cities;
+import cn.itcast.core.pojo.address.Provinces;
 import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.service.AddressService;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -134,6 +137,40 @@ public class AddressController {
             return new Result(false, "修改失败");
 
         }
+    }
+
+    /**
+     * 查询省
+     * @param parentId 编号
+     * @return
+     */
+    @RequestMapping("/findByParentId")
+    public List<Provinces> findByParentId(String parentId) {
+
+        List<Provinces> list = addressService.findByParentId(parentId);
+        return  list;
+    }
+
+    /**
+     * 查询市
+     * @param parentId2
+     * @return
+     */
+    @RequestMapping("/findByParentId2")
+    public List<Cities> findByParentId2(String parentId2) {
+        List<Cities> citiesList = addressService.findByParentId2(parentId2);
+        return citiesList;
+    }
+
+    /**
+     * 查询区
+     * @param parentId3
+     * @return
+     */
+    @RequestMapping("/findByParentId3")
+    public List<Areas> findByParentId3(String parentId3) {
+        List<Areas> areasList = addressService.findByParentId3(parentId3);
+        return areasList;
     }
 
 }

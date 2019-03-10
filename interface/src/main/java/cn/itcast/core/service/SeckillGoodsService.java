@@ -13,5 +13,5 @@ public interface SeckillGoodsService {
 
     public void updateStatus(Long[] ids, String status);
     public void add(SeckillGoods seckillGoods);
-
+    SeckillGoods findOne(Long id);
 }

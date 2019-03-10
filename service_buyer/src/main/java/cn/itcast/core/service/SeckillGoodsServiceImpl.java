@@ -29,6 +29,17 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
         return seckillGoods;
     }
 
+    /**
+     * 查询单个秒杀实体
+     * @param id 编号
+     * @return
+     */
+    @Override
+    public SeckillGoods findOne(Long id) {
+        SeckillGoods seckillGoods = seckillGoodsDao.selectByPrimaryKey(id);
+        return seckillGoods;
+    }
+
     @Override
     public PageResult findage(Integer page, Integer rows, SeckillGoods seckillGoods) {
         SeckillGoodsQuery seckillGoodsQuery = new SeckillGoodsQuery();
