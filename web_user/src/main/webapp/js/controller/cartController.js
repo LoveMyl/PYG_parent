@@ -1,5 +1,15 @@
 //购物车控制层
 app.controller('cartController',function($scope,cartService){
+
+    //显示当前登陆者用户名
+    $scope.showName = function () {
+        cartService.showName().success(
+            function (response) {
+                $scope.loginName = response.loginName;
+            }
+        );
+    }
+
 	//查询购物车列表
 	$scope.findCartList=function(){
 		cartService.findCartList().success(
