@@ -3,6 +3,8 @@ package cn.itcast.core.dao.order;
 import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.pojo.order.OrderItemQuery;
 import java.util.List;
+
+import cn.itcast.core.pojo.order.OrderQuery;
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderItemDao {
@@ -16,7 +18,7 @@ public interface OrderItemDao {
 
     int insertSelective(OrderItem record);
 
-    List<OrderItem> selectByExample(OrderItemQuery example);
+    List<OrderItem> selectByExample(OrderQuery example);
 
     OrderItem selectByPrimaryKey(Long id);
 
