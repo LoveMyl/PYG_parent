@@ -9,6 +9,33 @@ app.controller('cartController',function($scope,cartService){
 			}
 		);
 	}
+    //查询收藏列表
+    $scope.findCollectList=function(){
+        cartService.findCollectList().success(
+            function(response){
+                $scope.collectList=response;
+                $scope.totalValue= cartService.sum($scope.collectList);
+            }
+        );
+    }
+
+
+    //删除
+    $scope.deleCartListByItemId=function(itemId){
+        //获取选中的复选框
+        cartService.dele(itemId ).success(
+            function(response){
+                if(response.success){
+                    //$window.location.reload();
+                    window.location.reload();
+
+                }
+            }
+        );
+    }
+
+
+
 	
 	//数量加减
 	$scope.addGoodsToCartList=function(itemId,num){
@@ -22,7 +49,11 @@ app.controller('cartController',function($scope,cartService){
 			}		
 		);		
 	}
-	
+	//页面跳转
+    $scope.openDetailPage = function(){
+        alert("跳转成功");
+        window.open("http://localhost:8083/home-person-collect.html");
+    }
 
 	
 	//获取当前用户的地址列表
@@ -82,8 +113,7 @@ app.controller('cartController',function($scope,cartService){
 				}else{
 					alert(response.message);	//也可以跳转到提示页面				
 				}
-				
-			}				
+			}
 		);		
 	}
 
@@ -92,5 +122,5 @@ app.controller('cartController',function($scope,cartService){
         //alert(goodsId);
         window.open("http://localhost:8083/home-index.html");
     }
-	
+
 });

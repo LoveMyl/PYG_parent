@@ -32,5 +32,24 @@ app.controller('userController' ,function($scope,$controller   ,userService){
 			}
 		);		
 	}
+
+    //显示当前登陆者用户名
+    $scope.showName = function () {
+        userService.showName().success(
+            function (response) {
+                $scope.loginName = response.loginName;
+            }
+        );
+    }
+
+    //查询实体
+    $scope.findEntity=function(){
+        userService.findEntity().success(
+            function(response){
+                $scope.entity= response
+
+            }
+        );
+    }
 	
 });	

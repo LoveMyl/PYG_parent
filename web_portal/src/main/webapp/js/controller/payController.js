@@ -44,5 +44,11 @@ app.controller('payController' ,function($scope ,$location,payService){
 	$scope.getMoney=function(){
 		return $location.search()['money'];
 	}
+
+    //跳转到静态页面
+    $scope.openDetailPage = function(){
+        //alert(goodsId);
+        window.open("http://localhost:8083/home-index.html");
+    }
 	
 });

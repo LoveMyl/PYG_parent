@@ -1,15 +1,19 @@
 //购物车服务层
 app.service('cartService',function($http){
 	//购物车列表
-	this.findCartList=function(){
-		return $http.get('cart/findCartList.do');
-	}
-	
-	//添加商品到购物车
-	this.addGoodsToCartList=function(itemId,num){
-		return $http.get('cart/addGoodsToCartList.do?itemId='+itemId+'&num='+num);
-	}
-	
+    this.findCartList=function(){
+        return $http.get('cart/findCartList.do');
+    }
+    //查询收藏列表
+    this.findCollectList=function(){
+        return $http.get('collect/findCollectList.do');
+    }
+
+    //添加收藏列表
+	this.addItemToCollectList=function (itemId) {
+		return $http.get('collect/addItemToCollectList.do?itemId='+itemId);
+    }
+
 	//求合计数
 	this.sum=function(cartList){
 		var totalValue={totalNum:0,totalMoney:0 };
@@ -35,6 +39,11 @@ app.service('cartService',function($http){
 	this.submitOrder=function(order){
 		return $http.post('order/add.do',order);		
 	}
-	
+
+	//删除
+    this.dele = function(itemId){
+    	return $http.get('cart/deleCartListByItemId.do?itemId='+itemId);
+
+	}
 	
 });

@@ -28,6 +28,8 @@
 				<ul class="fr">
 					<li class="f-item"><a href="#" ng-click="openDetailPage()">我的订单</a></li>
 					<li class="f-item space"></li>
+					<li class="f-item"><a href="#" ng-click="openDetailPage()">我的收藏</a></li>
+					<li class="f-item space"></li>
 					<li class="f-item">我的品优购</li>
 					<li class="f-item space"></li>
 					<li class="f-item">品优购会员</li>
@@ -94,8 +96,8 @@
 								</li>
 								<li class="yui3-u-1-8"><span class="sum">{{item.totalFee}}</span></li>
 								<li class="yui3-u-1-8">
-									<a href="#none">删除</a><br />
-									<a href="#none">移到我的关注</a>
+									<a href="#" ng-click="deleCartListByItemId(item.itemId)">删除</a><br />
+									<a href="#" ng-click="addItemToCollectList(item.itemId)">收藏</a><br />
 								</li>
 							</ul>
 						</div>

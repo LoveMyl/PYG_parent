@@ -1,5 +1,7 @@
 package cn.itcast.core.service;
 
+import cn.itcast.core.pojo.entity.PageResult;
+import cn.itcast.core.pojo.log.PayLog;
 import cn.itcast.core.pojo.order.Order;
 
 import java.util.List;
@@ -23,9 +25,28 @@ public interface OrderService {
     public void updatePayLogAndOrderStatus(String out_trade_no);
 
     /**
-     * 查询订单集合
+     * 分页查询 订单数据
      *
+     * @param page     当前页
+     * @param rows     每页显示个数
+     * @param userName 当前登陆者用户名
+     * @param status   订单状态
      * @return
      */
-    public abstract List<Order> getOrderList();
+    public abstract PageResult search(Integer page, Integer rows, String userName, String status);
+
+    /**
+     * 查询payLog支付日志,
+     *
+     * @param orderIdStr
+     * @return
+     */
+    public abstract PayLog findPayLog(String orderIdStr);
+
+    /**
+     * 订单超时,修改订单状态
+     * @param orderIdStr 订单号
+     */
+    public abstract void updateOrderStatus(String orderIdStr);
+
 }

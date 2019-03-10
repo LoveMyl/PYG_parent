@@ -3,6 +3,11 @@ app.controller("contentController",function($scope,contentService){
     $scope.kkkd = $scope.kkk;*/
     $scope.contentList = [];
 	//根据一级分类查询分类集合
+    $scope.findByCategoryId = function(categoryId){
+        contentService.findByCategoryId(categoryId).success(function(response){
+            $scope.contentList[categoryId] = response;
+        });}
+
     $scope.findByCategoryParentId = function(categoryId){
         contentService.findByCategoryParentId(categoryId).success(function(response){
             $scope.categoryList= response;

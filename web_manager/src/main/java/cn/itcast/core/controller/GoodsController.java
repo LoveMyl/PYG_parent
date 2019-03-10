@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -65,5 +66,9 @@ public class GoodsController {
             e.printStackTrace();
             return new Result(false, "修改失败!");
         }
+    }
+    @RequestMapping("/findAll")
+    public   List<Goods> findAll() {
+        return goodsService.findAll();
     }
 }
