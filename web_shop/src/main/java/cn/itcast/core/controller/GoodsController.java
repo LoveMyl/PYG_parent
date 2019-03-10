@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -90,5 +92,9 @@ public class GoodsController {
             e.printStackTrace();
             return new Result(false, "删除失败!");
         }
+    }
+    @RequestMapping("/findAll")
+    public List<Goods> findAll() {
+        return goodsService.findAll();
     }
 }

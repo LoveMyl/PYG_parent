@@ -80,4 +80,20 @@ public class OrderController {
         }
     }
 
+    /**
+     * 取消订单
+     * @param orderIdStr 订单号
+     * @return
+     */
+    @RequestMapping("cancelOrder")
+    public Result cancelOrder(String orderIdStr){
+        try {
+            orderService.updateOrderStatus(orderIdStr);
+            return new Result(true, "1");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "取消失败了,稍后再来试试吧!");
+        }
+    }
+
 }

@@ -9,6 +9,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -59,7 +60,13 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
         Page<SeckillGoods> seckillGoods1 = (Page<SeckillGoods>) seckillGoodsDao.selectByExample(seckillGoodsQuery);
         return new PageResult(seckillGoods1.getTotal(), seckillGoods1.getResult());
     }
+    @Override
+    public void add(SeckillGoods seckillGoods) {
+        seckillGoods.setStatus("0");
+        seckillGoods.setCreateTime(new Date());
+        seckillGoodsDao.insertSelective(seckillGoods);
 
+    }
 
     @Override
     public void updateStatus(Long[] ids, String status) {

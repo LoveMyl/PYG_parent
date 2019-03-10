@@ -284,7 +284,7 @@ $(function(){
                                             <td width="10%" class="center">
                                                 <ul class="unstyled">
                                                     <li><a href="#" class="sui-btn btn-info" ng-click="goToPayPage(order.orderIdStr)">{{payStatus[order.status]}}</a></li>
-                                                    <li><a href="#">取消订单</a></li>
+                                                    <li><a href="#" ng-click="cancelOrder(order.orderIdStr)">取消订单</a></li>
                                                 </ul>
                                             </td>
                                         </tr>
