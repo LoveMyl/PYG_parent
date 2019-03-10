@@ -170,8 +170,8 @@ $(function(){
 
 		<!--商品列表-->
 		<div class="goods-list">
-			<ul class="seckill" id="seckill">
-				<li class="seckill-item" >
+			<ul class="seckill" id="seckill" >
+				<!--<li class="seckill-item" >
 					<div class="pic" onclick="location.href='seckill-item.html'">
 						<img src="img/_/list.jpg" alt=''  >
 					</div>
@@ -185,8 +185,29 @@ $(function(){
 						<div>剩余<b class='owned'>29</b>件</div>
 					</div>
 					<a class='sui-btn btn-block btn-buy' href='seckill-item.html' target='_blank'>立即抢购</a>
+				</li>-->
+
+				<li class="seckill-item" ng-repeat="seckill in list" >
+
+					<div class="pic" onclick="location.href='seckill-item.html'">
+						<img src="{{seckill.smallPic}}" alt=''  >
+					</div>
+					<div class="intro"><span>{{seckill.title}}</span></div>
+					<div class='price'><b class='sec-price'>￥{{seckill.costPrice}}</b><b class='ever-price'>￥{{seckill.price}}</b></div>
+					<div class='num'>
+						<div>已售87%</div>
+						<div class='progress'>
+							<div class='sui-progress progress-danger'><span style='width: 70%;' class='bar'></span></div>
+						</div>
+						<br>
+						<div>剩余<b class='owned'>{{seckill.stockCount}}</b>件</div>
+					</div>
+					<a class='sui-btn btn-block btn-buy' href='seckill-item.html?id={{seckill.id}}' target='_blank'>立即抢购</a>
 				</li>
-				<li class="seckill-item">
+
+
+
+				<!--<li class="seckill-item">
 					<div class="pic">
 						<img src="img/_/list.jpg" alt=''>
 					</div>
@@ -350,7 +371,7 @@ $(function(){
 						<div>剩余<b class='owned'>29</b>件</div>
 					</div>
 					<a class='sui-btn btn-block btn-buy' href='seckill-item.html' target='_blank'>立即抢购</a>
-				</li>
+				</li>-->
 
 
 			</ul>
