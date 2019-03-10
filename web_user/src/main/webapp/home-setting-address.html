@@ -17,7 +17,8 @@
 	<script type="text/javascript" src="js/controller/cartController.js"> </script>
 </head>
 
-<body ng-app="pinyougou" ng-controller="cartController" ng-init="findAddressList();showName()">
+<body ng-app="pinyougou" ng-controller="cartController" ng-init="findAddressList();showName();selectItemCat1List()">
+{{areaList}}
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -325,7 +326,10 @@ $(function(){
                                                 <input type="text" class="input-medium" ng-model="entity.alias">
                                             </div>
                                             <div class="othername">
-                                                建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
+                                                建议填写常用地址：
+												<a href="#" class="sui-btn btn-default" ng-click="update('家里')">家里</a>　
+												<a href="#" class="sui-btn btn-default" ng-click="update('父母家')">父母家</a>　
+												<a href="#" class="sui-btn btn-default" ng-click="update('公司')">公司</a>
                                             </div>
                                         </div>
                                         
