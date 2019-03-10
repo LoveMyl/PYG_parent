@@ -114,6 +114,7 @@ app.controller('cartController',function($scope,cartService){
         });
     }
 
+
     // 查询二级分类列表:
     $scope.$watch("entity.provinceId",function(newValue,oldValue){
         cartService.findByParentId2(newValue).success(function(response){
