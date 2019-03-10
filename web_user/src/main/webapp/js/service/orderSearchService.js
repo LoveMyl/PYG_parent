@@ -10,5 +10,8 @@ app.service('orderSearchService',function($http) {
         return $http.get("order/search.do?page="+page+"&rows="+rows+"&status="+status);
     }
 
-
+    //根据订单号, 查询订单
+    this.goToPayPage = function(orderIdStr){
+        return $http.get("order/goToPayPage.do?orderIdStr="+orderIdStr);
+    }
 });
