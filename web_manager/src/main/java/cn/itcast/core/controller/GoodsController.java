@@ -67,4 +67,8 @@ public class GoodsController {
             return new Result(false, "修改失败!");
         }
     }
+    @RequestMapping("/findAll")
+    public   List<Goods> findAll() {
+        return goodsService.findAll();
+    }
 }
