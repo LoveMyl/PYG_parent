@@ -18,4 +18,9 @@ public interface Constants {
 
     public final static String COOKIE_COLLECT_LIST = "pyg_collectList";
     public final static String REDIS_COLLECT_LIST = "pyg_collectList";
+
+    /**
+     * 将订单号存入redis,
+     */
+    public final static String ORDER_TIME_OUT = "orderTimeOut";
 }

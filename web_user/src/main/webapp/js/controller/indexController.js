@@ -48,7 +48,8 @@ app.controller('indexController', function ($scope, $controller, loginService, o
                     //页面跳转
                     if (response.message == '1') {//如果是微信支付，跳转到支付页面
                         location.href = "userPay.html?orderIdStr="+orderIdStr;
-                    } else {//如果货到付款，跳转到提示页面
+                    }
+                    if (response.message == '2') {//如果货到付款，跳转到提示页面
                         location.href = "paysuccess.html";
                     }
                 } else {

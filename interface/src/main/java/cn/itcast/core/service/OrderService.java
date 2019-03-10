@@ -42,4 +42,10 @@ public interface OrderService {
      * @return
      */
     public abstract PayLog findPayLog(String orderIdStr);
+
+    /**
+     * 订单超时,修改订单状态
+     * @param orderIdStr 订单号
+     */
+    public abstract void updateOrderStatus(String orderIdStr);
 }
