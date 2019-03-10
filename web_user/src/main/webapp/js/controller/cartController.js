@@ -10,6 +10,13 @@ app.controller('cartController',function($scope,cartService){
         );
     }
 
+    //修改地址别名
+    $scope.update = function (param) {
+        alert(param);
+        return $scope.entity.alias =param;
+
+    }
+
 	//查询购物车列表
 	$scope.findCartList=function(){
 		cartService.findCartList().success(
