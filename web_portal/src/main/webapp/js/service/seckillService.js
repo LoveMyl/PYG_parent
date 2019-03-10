@@ -9,9 +9,10 @@ app.service('seckillService',function($http){
 	this.findPage=function(page,rows){
 		return $http.get('seckill/findPage.do?page='+page+'&rows='+rows);
 	}
+	*/
 	//查询实体
 	this.findOne=function(id){
 		return $http.get('seckill/findOne.do?id='+id);
-	}*/
+	}
 
 });

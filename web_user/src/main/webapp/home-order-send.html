@@ -33,7 +33,7 @@
 
 </head>
 
-<body ng-app="pinyougou" ng-controller="indexController" ng-init="showName();status='3'">
+<body ng-app="pinyougou" ng-controller="indexController" ng-init="showName();status='2'">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -107,7 +107,7 @@
 						<div class="fr shopcar">
 							<div class="show-shopcar" id="shopcar">
 								<span class="car"></span>
-								<a class="sui-btn btn-default btn-xlarge" href="cart.html" target="_blank">
+								<a class="sui-btn btn-default btn-xlarge" ng-click="openCartPage()" target="_blank">
 									<span>我的购物车</span>
 									<i class="shopnum">0</i>
 								</a>
@@ -250,7 +250,7 @@ $(function(){
                                             <td width="35%">
                                                 <div class="typographic"><img src="{{order.picPath}}" hight="100" width="100">
                                                     <a href="#" class="block-text">{{order.title}}</a>
-                                                    <span class="guige">规格：温泉喷雾150ml</span>
+                                                    <span class="guige">{{order.goodsSpec}}</span>
                                                 </div>
                                             </td>
                                             <td width="5%" class="center">
@@ -262,7 +262,7 @@ $(function(){
                                             <td width="5%" class="center">{{order.num}}</td>
                                             <td width="8%" class="center">
                                                 <ul class="unstyled">
-                                                    {{out[order.status]}}
+													<a>{{out[order.status]}}</a>
                                                 </ul>
                                             </td>
                                             <td width="10%" class="center" rowspan="2">
@@ -288,10 +288,13 @@ $(function(){
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="choose-order">
-
+							<div class="choose-order">
+								<!--<label data-toggle="checkbox" class="checkbox-pretty checked">
+                                        <input type="checkbox" checked="checked"><span>全选</span>
+                                    </label>
+                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn">合并付款</a>
                                 <div class="sui-pagination pagination-large top-pages">
-                                    <!--<ul>
+                                    <ul>
                                         <li class="prev disabled"><a href="#">«上一页</a></li>
                                         <li class="active"><a href="#">1</a></li>
                                         <li><a href="#">2</a></li>
@@ -304,13 +307,12 @@ $(function(){
                                             <input type="text" class="page-num"><button class="page-confirm" onclick="alert(1)">确定</button>
                                             页</span></div>
                                 </div>-->
-                                    <!-- 分页 -->
-                                    <tm-pagination conf="paginationConf"></tm-pagination>
-                            </div>
+								<!-- 分页 -->
+								<tm-pagination conf="paginationConf"></tm-pagination>
+							</div>
 
-                            <div class="clearfix"></div>
-                        </div>
-
+							<div class="clearfix"></div>
+						</div>
                         <div class="like-title">
                             <div class="mt">
                                 <span class="fl"><strong>热卖单品</strong></span>

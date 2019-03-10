@@ -21,6 +21,7 @@ app.controller('seckillController' ,function($scope,$controller,seckillService){
 			}			
 		);
 	}
+	*/
 	
 	//查询实体 
 	$scope.findOne=function(id){				
@@ -29,7 +30,7 @@ app.controller('seckillController' ,function($scope,$controller,seckillService){
 				$scope.entity= response;					
 			}
 		);				
-	}*/
+	}
 
     
 });	
