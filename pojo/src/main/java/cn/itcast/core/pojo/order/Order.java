@@ -161,7 +161,22 @@ public class Order implements Serializable {
      */
     private String picPath;
 
+    /**
+     * 订单id转换为字符串类型
+     */
     private String orderIdStr;
+    /**
+     * 商品规格
+     */
+    private String goodsSpec;
+
+    public String getGoodsSpec() {
+        return goodsSpec;
+    }
+
+    public void setGoodsSpec(String goodsSpec) {
+        this.goodsSpec = goodsSpec;
+    }
 
     public String getOrderIdStr() {
         return orderIdStr;

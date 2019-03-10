@@ -8,5 +8,9 @@ public interface SeckillGoodsService {
 
     List<SeckillGoods> findAll();
 
+    public PageResult findage(Integer page, Integer rows, SeckillGoods seckillGoods);
+
+    public void updateStatus(Long[] ids, String status);
+
     SeckillGoods findOne(Long id);
 }
