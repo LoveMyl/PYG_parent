@@ -12,4 +12,6 @@ public interface SeckillGoodsService {
     public PageResult findage(Integer page, Integer rows, SeckillGoods seckillGoods);
 
     public void updateStatus(Long[] ids, String status);
+    public void add(SeckillGoods seckillGoods);
+
 }
