@@ -8,7 +8,6 @@ import cn.itcast.core.dao.order.OrderDao;
 import cn.itcast.core.dao.order.OrderItemDao;
 import cn.itcast.core.pojo.entity.BuyerCart;
 import cn.itcast.core.pojo.entity.PageResult;
-import cn.itcast.core.pojo.entity.Result;
 import cn.itcast.core.pojo.item.Item;
 import cn.itcast.core.pojo.item.ItemQuery;
 import cn.itcast.core.pojo.log.PayLog;
@@ -296,7 +295,7 @@ public class OrderServiceImpl implements OrderService {
                 //获取订单id
                 Long orderId = order.getOrderId();
                 //订单详细查询条件
-                OrderItemQuery query = new OrderItemQuery();
+               OrderItemQuery query=new OrderItemQuery();
                 OrderItemQuery.Criteria criteria = query.createCriteria();
                 criteria.andOrderIdEqualTo(orderId);
                 //根据订单id获取订单详细信息
