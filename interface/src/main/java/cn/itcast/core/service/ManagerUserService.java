@@ -8,5 +8,5 @@ public interface ManagerUserService {
     public PageResult findPage(Integer page, Integer rows, User user);
 
 
-    void updateUserStatus(Long userid);
+    void updateStatus(Long[] ids, String status);
 }

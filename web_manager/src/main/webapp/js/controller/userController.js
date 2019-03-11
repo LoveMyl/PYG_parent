@@ -29,6 +29,17 @@ app.controller('userController' ,function($scope,$controller,userService){
 			}			
 		);
 	}
-    
+
+    $scope.updateStatus = function(status){
+        userService.updateStatus($scope.selectIds,status).success(function(response){
+            if(response.success){
+                $scope.reloadList();//刷新列表
+                $scope.selectIds = [];
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+
 
 });	
