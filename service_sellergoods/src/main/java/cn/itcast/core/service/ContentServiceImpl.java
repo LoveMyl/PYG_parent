@@ -18,6 +18,7 @@ import java.util.List;
 @Transactional
 public class ContentServiceImpl implements  ContentService{
 
+
     @Autowired
     private ContentDao contentDao;
 
@@ -55,6 +56,8 @@ public class ContentServiceImpl implements  ContentService{
         redisTemplate.boundHashOps(Constants.REDIS_CONTENT_LIST).delete(content.getCategoryId());
         //4. 将数据修改到数据库中保存
         contentDao.updateByPrimaryKeySelective(content);
+
+
     }
 
     @Override

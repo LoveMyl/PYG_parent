@@ -1,34 +1,31 @@
 package cn.itcast.core.service;
 
 import cn.itcast.core.dao.order.OrderDao;
+
 import cn.itcast.core.dao.order.OrderItemDao;
-import cn.itcast.core.dao.seller.SellerDao;
 import cn.itcast.core.pojo.entity.EchrtsResult;
 import cn.itcast.core.pojo.entity.PageResult;
+
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
-import cn.itcast.core.pojo.order.OrderItemQuery;
 import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
-@Service
 
-public class ShopOrdersServiceimpl implements ShopOrdersService {
+@Service
+public class ManagerOrdersServiceimpl implements ManagerOrdersService {
 
     @Autowired
     private OrderDao orderDao;
     @Autowired
     private OrderItemDao orderItemDao;
-    @Autowired
-    private SellerDao sellerDao;
 
     /**
      * 后台管理订单查询分页显示
@@ -49,11 +46,7 @@ public class ShopOrdersServiceimpl implements ShopOrdersService {
                 //条件
                 criteria.andOrderIdEqualTo(order.getOrderId());
             }
-            if (order.getSellerId() != null && !"".equals(order.getSellerId())) {
-                criteria.andSellerIdEqualTo(order.getSellerId());
-            }
         }
-
         //分页助手
         PageHelper.startPage(page, rows);
 
@@ -62,69 +55,102 @@ public class ShopOrdersServiceimpl implements ShopOrdersService {
         return new PageResult(orderList.getTotal(), orderList.getResult());
     }
 
-    @Override
-    public void updateStatus(Long[] ids, String status) {
-        Order order = new Order();
-        order.setStatus(status);
-        if (ids != null) {
-            for (Long id : ids) {
-                order.setOrderId(id);
-                orderDao.updateByPrimaryKeySelective(order);
-            }
-        }
-    }
+
+    /**
+     * 订单柱形图数据
+     * @return
+     */
 
     @Override
-    public List<EchrtsResult> findech(String selleId) {
+    public List<EchrtsResult> findech() {
         //创建一个集合存储数据
         ArrayList<EchrtsResult> echrtsList = new ArrayList<>();
-
+        LinkedHashMap<String, Double> map = new LinkedHashMap<>();
         System.out.println("请求检测");
         //取数据库订单数据
-        OrderQuery query = new OrderQuery();
-        OrderQuery.Criteria criteria = query.createCriteria();
-        criteria.andSellerIdEqualTo(selleId);
-        List<Order> orderList = orderDao.selectByExample(query);
-        LinkedHashMap<String, BigDecimal> map = new LinkedHashMap<>();
+        List<Order> orderList = orderDao.selectByExample(null);
         String time = "";
-        for (int i = 0; i < orderList.size(); i++) {
+        String time2 = "";
+        double price = 0.0;
+        //遍历数据封装进结果对象 放进集合返回
+        for (int i = 0, j = 1; i < orderList.size(); i++, j++) {
             Order order = orderList.get(i);
             time = order.getCreateTime().toLocaleString().substring(0, 9);
-            if (map.containsKey(time)) {
-                map.put(time, map.get(time).add(order.getPayment()));
-            } else {
-                map.put(time, order.getPayment());
+            if (j < orderList.size()) {
+                time2 = orderList.get(j).getCreateTime().toLocaleString().substring(0, 9);
+            }
+            if (time != null && order.getPayment() != null) {
+                if (time.equals(time2)) {
+                    price += order.getPayment().doubleValue();
+                } else {
+                    DecimalFormat d = new DecimalFormat(".##");
+                    map.put(time, Double.valueOf(d.format(price)));
+                    time = "";
+                    time2 = "";
+                    price = 0.0;
+                }
             }
         }
         if (map != null) {
-            for (Map.Entry<String, BigDecimal> entry : map.entrySet()) {
-                EchrtsResult echrtsResult = new EchrtsResult();
-                echrtsResult.setDay(entry.getKey());
-                echrtsResult.setPrice(entry.getValue().toString());
-                echrtsList.add(echrtsResult);
+            for (Map.Entry<String, Double> entry : map.entrySet()) {
+                EchrtsResult ech = new EchrtsResult();
+                ech.setDay(entry.getKey());
+                ech.setPrice(entry.getValue().toString());
+                echrtsList.add(ech);
             }
+
         }
+
 
         return echrtsList;
     }
 
     /**
-     * 订单统计折线图
+     * 订单折线图数据
      *
      * @return
      */
     @Override
-    public List<OrderItem> findechz(String selleId) {
+    public List<OrderItem> findechZX() {
         List<OrderItem> ItemList = new ArrayList<OrderItem>();
-        OrderItemQuery query1=new OrderItemQuery();
-        OrderItemQuery.Criteria criteria = query1.createCriteria();
-        criteria.andSellerIdEqualTo(selleId);
-        List<OrderItem> orderItems = orderItemDao.selectByExample(query1);
+        List<OrderItem> orderItems = orderItemDao.selectByExample(null);
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+        for (int i = 0; i < orderItems.size(); i++) {
+            OrderItem orderItem = orderItems.get(i);
+            if (map.containsKey(orderItem.getSellerId())) {
+                map.put(orderItem.getSellerId(), map.get(orderItem.getSellerId()) + orderItem.getNum());
+            } else {
+                map.put(orderItem.getSellerId(), orderItem.getNum());
+            }
+        }
+        System.out.println(map);
+        if (map != null) {
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                OrderItem orderItem = new OrderItem();
+                orderItem.setSellerId(entry.getKey());
+                orderItem.setNum(entry.getValue());
+                ItemList.add(orderItem);
+            }
+        }
+        return ItemList;
+    }
+
+
+    /**
+     * 订单饼状图数据
+     * @return
+     */
+    @Override
+    public List<OrderItem> findechB() {
+
+        List<OrderItem> ItemList = new ArrayList<OrderItem>();
+        List<OrderItem> orderItems = orderItemDao.selectByExample(null);
         LinkedHashMap<String, BigDecimal> map = new LinkedHashMap<>();
         for (int i = 0; i < orderItems.size(); i++) {
             OrderItem orderItem = orderItems.get(i);
-            if (map.containsKey(orderItem.getTitle())) {
-                map.put(orderItem.getTitle(), map.get(orderItem.getTitle()).add(orderItem.getTotalFee()));
+            if (map.containsKey(orderItem.getSellerId())) {
+                BigDecimal add = map.get(orderItem.getTitle()).add(orderItem.getTotalFee());
+                map.put(orderItem.getTitle(), add);
             } else {
                 map.put(orderItem.getTitle(), orderItem.getTotalFee());
             }
@@ -139,6 +165,7 @@ public class ShopOrdersServiceimpl implements ShopOrdersService {
             }
         }
         return ItemList;
-    }
 
+
+    }
 }
