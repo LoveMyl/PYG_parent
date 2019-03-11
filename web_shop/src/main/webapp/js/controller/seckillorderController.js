@@ -1,5 +1,5 @@
  //控制层 
-app.controller('orderController' ,function($scope,$controller,orderService){
+app.controller('seckillorderController' ,function($scope,$controller,seckillorderService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -18,12 +18,12 @@ app.controller('orderController' ,function($scope,$controller,orderService){
 			}		
 		);				
 	}
-	
+    $scope.status = ["1","未付","已付款","已发货","未发货","交易成功","交易关闭","待评价"]
 	$scope.searchEntity={};//定义搜索对象 
 	
 	//搜索
 	$scope.search=function(page,rows){
-        orderService.search(page,rows,$scope.searchEntity).success(
+        seckillorderService.search(page,rows,$scope.searchEntity).success(
 			function(response){
 				$scope.list=response.rows;
 				alert(response.rows.get(0));

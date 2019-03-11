@@ -17,9 +17,8 @@ import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -45,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendCode(final String phone) {
         //1. 生成随机6位以内的数字作为验证码
-        final String code = String.valueOf((long)(Math.random() * 1000000));
+        final String code = String.valueOf((long) (Math.random() * 1000000));
         //2. 将手机号作为key, 验证码作为value存入redis中
         redisTemplate.boundValueOps(phone).set(code, 10, TimeUnit.MINUTES);
         //3. 将手机号, 验证码, 签名, 模板编号等信息组成消息对象发送给消息服务器
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         //2. 根据手机号到redis中获取我们保存的验证码
-        String redisSmsCode = (String)redisTemplate.boundValueOps(phone).get();
+        String redisSmsCode = (String) redisTemplate.boundValueOps(phone).get();
         //3. 判断使用手机号是否能够取出验证码
         if (redisSmsCode == null || "".equals(redisSmsCode)) {
             return false;
@@ -104,7 +103,5 @@ public class UserServiceImpl implements UserService {
         }
         return new User();
     }
-
-
 
 }
