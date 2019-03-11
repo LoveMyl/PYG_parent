@@ -31,7 +31,7 @@
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="orderController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="seckillorderController">
 <!-- .box-body -->
 
 <div class="box-header with-border">
@@ -87,9 +87,9 @@
                     <td><input  type="checkbox" ng-click="updateSelection($event,entity.id)"></td>
                     <td>{{entity.id}}</td>
                     <td>{{entity.createTime}}</td>
-                    <td>{{entity.userId}}</td>
+                    <td>{{entity.sellerId}}</td>
                     <td>{{entity.money}}</td>
-                    <td>{{entity.status}}</td>
+                    <td>{{status[entity.status]}}</td>
                     <td>{{entity.receiverAddress}}</td>
                   <!--  <td>
 		                                  	<span>

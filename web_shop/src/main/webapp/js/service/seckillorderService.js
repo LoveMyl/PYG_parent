@@ -1,5 +1,5 @@
 //服务层
-app.service('orderService',function($http){
+app.service('seckillorderService',function($http){
 
 	//删除
 	this.dele=function(ids){

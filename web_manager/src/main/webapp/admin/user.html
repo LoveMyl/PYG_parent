@@ -53,6 +53,8 @@
                                         <div class="btn-group">
 
                                             <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+                                            <button type="button" ng-click="updateStatus('1')" class="btn btn-default" title="取消发货"  onclick="window.location.reload();"><i class="fa fa-check"></i> 取消冻结</button>
+                                            <button type="button" ng-click="updateStatus('0')" class="btn btn-default" title="发货"  onclick="window.location.reload();"><i class="fa fa-check"></i> 冻结</button>
                                             <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                         </div>
                                     </div>
@@ -84,7 +86,7 @@
 			                      </thead>
 			                      <tbody>
 			                          <tr ng-repeat="entity in list">
-			                              <td><input  type="checkbox"></td>			                              
+                                          <td><input ng-click="updateSelection($event,entity.id)" type="checkbox"></td>
 				                          <td>{{entity.id}}</td>
 									      <td>{{entity.username}}</td>
 									      <td>{{entity.phone}}</td>
@@ -94,10 +96,7 @@
 									      <td>{{status[entity.status]}}</td>
 		                                  <td>
 		                                  </td>		                                  
-		                                  <td class="text-center">
-		                                  	  <a class="btn bg-olive btn-xs" href="goods_edit.html#?id={{entity.id}}">修改</a>
-		                                  </td>
-			                          </tr>
+		                  	   </tr>
 			                      </tbody>
 			                  </table>
 			                  <!--数据列表/-->

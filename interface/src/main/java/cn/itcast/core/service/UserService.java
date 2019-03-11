@@ -3,6 +3,8 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.pojo.user.User;
 
+import java.util.List;
+
 
 public interface UserService {
 
@@ -13,4 +15,5 @@ public interface UserService {
     public void add(User user);
 
     User findEntity(String userName);
+        //        //获取当前用户
 }

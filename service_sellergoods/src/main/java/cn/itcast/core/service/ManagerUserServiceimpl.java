@@ -8,12 +8,26 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 @Service
 public class ManagerUserServiceimpl implements ManagerUserService {
     @Autowired
     private UserDao userDao;
 
+
+
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        User user = new User();
+
+        user.setStatus(status);
+        if (ids != null) {
+            for (Long id : ids) {
+                user.setId(id);
+                userDao.updateByPrimaryKeySelective(user);
+            }
+        }
+    }
     /**
      * 用户管理页面分页
      * @param page
@@ -40,9 +54,6 @@ public class ManagerUserServiceimpl implements ManagerUserService {
         return new PageResult(orderList.getTotal(), orderList.getResult());
     }
 
-    @Override
-    public void updateUserStatus(Long userid) {
 
-    }
 }
 
