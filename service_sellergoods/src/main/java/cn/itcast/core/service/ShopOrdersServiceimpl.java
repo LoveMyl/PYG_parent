@@ -7,6 +7,7 @@ import cn.itcast.core.pojo.entity.EchrtsResult;
 import cn.itcast.core.pojo.entity.PageResult;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.OrderItemQuery;
 import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
@@ -115,8 +116,8 @@ public class ShopOrdersServiceimpl implements ShopOrdersService {
     @Override
     public List<OrderItem> findechz(String selleId) {
         List<OrderItem> ItemList = new ArrayList<OrderItem>();
-        OrderQuery query1 = new OrderQuery();
-        OrderQuery.Criteria criteria = query1.createCriteria();
+        OrderItemQuery query1=new OrderItemQuery();
+        OrderItemQuery.Criteria criteria = query1.createCriteria();
         criteria.andSellerIdEqualTo(selleId);
         List<OrderItem> orderItems = orderItemDao.selectByExample(query1);
         LinkedHashMap<String, BigDecimal> map = new LinkedHashMap<>();

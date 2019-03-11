@@ -111,16 +111,17 @@
     </script>
 </head>
 <body class="hold-transition skin-red sidebar-mini" >
+<div>
 <!--文件上传-->
 <form enctype="multipart/form-data" id="batchUpload"  action="user/upload" method="post" class="form-horizontal">
     <button class="btn btn-success btn-xs" id="uploadEventBtn" style="height:26px;"  type="button" >选择文件</button>
     <input type="file" name="file"  style="width:0px;height:0px;" id="uploadEventFile">
     <input id="uploadEventPath"  disabled="disabled"  type="text" placeholder="请选择excel表" style="border: 1px solid #e6e6e6; height: 26px;width: 200px;" >
 </form>
-<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn()" >上传品牌表</button>
-<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn1()" >上传规格表</button>
-<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn2()" >上传模板表</button>
-<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn3()" >上传分类表</button>
+<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn()" >导入品牌表</button>
+<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn1()" >导入规格表</button>
+<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn2()" >导入模板表</button>
+<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn3()" >导入分类表</button>
 <div></div>
 <div></div>
 <div></div>
@@ -139,7 +140,7 @@
 </div>
 
 
-
+</div>
 
 </body>
 </html>
