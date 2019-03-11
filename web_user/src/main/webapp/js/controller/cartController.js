@@ -6,6 +6,7 @@ app.controller('cartController',function($scope,cartService){
         cartService.showName().success(
             function (response) {
                 $scope.loginName = response.loginName;
+                $scope.userPic = response.userPic;     //头像
             }
         );
     }

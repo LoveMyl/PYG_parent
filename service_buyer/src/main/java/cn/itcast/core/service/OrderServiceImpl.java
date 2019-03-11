@@ -20,6 +20,7 @@ import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.ibatis.annotations.Lang;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -123,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
                 total_money += money;
 
                 //将订单号存入redis
-                redisTemplate.boundValueOps(orderId).set(orderId, 30, TimeUnit.MINUTES);
+                redisTemplate.boundValueOps(orderId).set(orderId, 3, TimeUnit.MINUTES);
                 //设置key的超时时间
                 //redisTemplate.boundHashOps(Constants.ORDER_TIME_OUT).expire(30, TimeUnit.MINUTES);
 
@@ -318,7 +319,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PayLog findPayLog(String orderIdStr) {
         //redis中获取订单号
-        String orderId = (String) redisTemplate.opsForHash().get(Constants.ORDER_TIME_OUT, orderIdStr);
+        Long orderId = (Long) redisTemplate.boundValueOps(Long.parseLong(orderIdStr)).get();
         //获取不到订单超时
         if (orderId != null) {
             //支付日志查询条件
@@ -341,6 +342,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 订单超时,修改订单状态
+     * 状态6, 为订单关闭
      *
      * @param orderIdStr 订单号
      */

@@ -2,7 +2,13 @@ app.controller('searchController',function($scope,$location,searchService){
 	
 	//定义搜索对象的结构  category:商品分类
 	$scope.searchMap={'keywords':'','category':'','brand':'','spec':{},'price':'','pageNo':1,'pageSize':40,'sort':'','sortField':''};
-	
+
+    //跳转到静态页面
+    $scope.openOrderPage = function () {
+        window.open("http://localhost:8083/home-index.html");
+    }
+
+
 	//搜索
 	$scope.search=function(){
 		$scope.searchMap.pageNo= parseInt($scope.searchMap.pageNo);//转换为数字
