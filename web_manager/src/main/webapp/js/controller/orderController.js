@@ -16,7 +16,7 @@ app.controller('orderController' ,function($scope,$controller,orderService){
         );
     }
     // 显示状态
-    $scope.status = ["1","未付","已付款","已发货","未发货","交易成功","交易关闭","待评价"];
+    $scope.status = ["未付","已付款","已发货","未发货","交易成功","交易关闭","待评价"];
     // 审核发货的方法:
     $scope.updateStatus = function(status){
         orderService.updateStatus($scope.selectIds,status).success(function(response){
