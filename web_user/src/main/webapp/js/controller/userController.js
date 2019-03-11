@@ -38,6 +38,7 @@ app.controller('userController' ,function($scope,$controller   ,userService){
         userService.showName().success(
             function (response) {
                 $scope.loginName = response.loginName;
+                $scope.userPic = response.userPic;     //头像
             }
         );
     }

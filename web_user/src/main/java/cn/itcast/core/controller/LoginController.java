@@ -1,5 +1,6 @@
 package cn.itcast.core.controller;
 
+import cn.itcast.core.pojo.user.User;
 import cn.itcast.core.service.UserService;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,9 +33,14 @@ public class LoginController {
     public Map getUserName(){
         //获取当前登陆用户名
         String loginUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+        //查询user,用于回显头像
+        User user = userService.findEntity(loginUserName);
         Map<String,String> loginName = new HashMap<>(16);
         if (loginUserName != null) {
             loginName.put("loginName", loginUserName);
+            if (user != null){
+                loginName.put("userPic", user.getHeadPic());
+            }
         }else {
             loginName.put("loginName", "未登录");
         }

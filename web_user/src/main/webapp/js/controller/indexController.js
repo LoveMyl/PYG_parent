@@ -15,7 +15,8 @@ app.controller('indexController', function ($scope, $controller, loginService, o
     $scope.showName = function () {
         loginService.showName().success(
             function (response) {
-                $scope.loginName = response.loginName;
+                $scope.loginName = response.loginName; //用户名
+                $scope.userPic = response.userPic;     //头像
             }
         );
     }
